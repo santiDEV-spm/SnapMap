@@ -181,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.item_settings){
-            Toast.makeText(this,"Se ha seleccionado el menu de opciones",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Se ha seleccionado el menu de opciones",
+                    Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
