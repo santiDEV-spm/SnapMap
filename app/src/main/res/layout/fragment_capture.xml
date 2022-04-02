@@ -1,97 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
-        android:id="@+id/button_save"
-        android:layout_below="@id/textTitle"
-        android:layout_centerInParent="true"
+        android:id="@+id/button_capture"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save"
-        style="?attr/materialButtonOutlinedStyle"/>
+        android:textColor="@color/teal_700"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        android:layout_marginBottom="@dimen/button_margin_bottom"
+        android:layout_marginLeft="@dimen/button_margin_bottom"
+        android:layout_marginStart="@dimen/button_margin_bottom"
+        android:text="@string/capture"
+        android:textStyle="bold" />
+
+
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/button_save"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:src="@mipmap/ic_launcher"
+        android:layout_below="@+id/edit_text_title"
+        android:layout_centerHorizontal="true"
+        />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textTag1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@id/image_view"
-        android:hint="Tag 1">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textTag2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_below="@id/textTag1"
-        android:hint="Tag 2">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textTag3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@id/textTag2"
-        android:hint="Tag 3">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/button_capture"
-        android:layout_alignParentBottom="true"
+    <EditText
+        android:id="@+id/edit_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/capture"
-        app:icon="@drawable/baseline_photo_camera_white_24"
-        android:layout_centerInParent="true"
-        android:padding="10dp"
-        android:gravity="center"
-        android:elevation="10dp"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="@dimen/button_margin_bottom" />
+        android:hint="@string/enter_photo_title_placeholder"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+
+    <Button
+        android:id="@+id/button_save"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/button_capture"
+        android:layout_marginEnd="@dimen/button_margin_bottom"
+        android:layout_marginRight="@dimen/button_margin_bottom"
+        android:text="@string/save"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/edit_text_tag_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/tag1"
+
+        android:layout_marginBottom="@dimen/margin_tag_1"
+        android:layout_above="@+id/button_capture"
+        android:layout_alignLeft="@+id/button_capture"
+        android:layout_alignStart="@+id/button_capture"
+        />
+
+
+    <EditText
+        android:id="@+id/edit_text_tag_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/tag2"
+
+        android:layout_alignTop="@id/edit_text_tag_1"
+        android:layout_alignLeft="@id/edit_text_tag_1"
+        android:layout_alignStart="@id/edit_text_tag_1"
+        android:layout_marginTop="@dimen/margin_tags"
+        />
+
+
+    <EditText
+        android:id="@+id/edit_text_tag_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/tag3"
+
+        android:layout_alignTop="@id/edit_text_tag_2"
+        android:layout_alignLeft="@id/edit_text_tag_2"
+        android:layout_alignStart="@id/edit_text_tag_2"
+        android:layout_marginTop="@dimen/margin_tags"
+        />
+
 
 
 
