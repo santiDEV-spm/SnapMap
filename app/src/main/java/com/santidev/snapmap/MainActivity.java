@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +20,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.santidev.snapmap.Fragments.ActivityCommunications;
 import com.santidev.snapmap.Fragments.CaptureFragment;
 import com.santidev.snapmap.Fragments.TagsFragment;
 import com.santidev.snapmap.Fragments.TitlesFragment;
+import com.santidev.snapmap.Fragments.ViewFragment;
+import com.santidev.snapmap.Model.DataManager;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCommunications {
 
     private ListView mNavDrawerListView;
     private DrawerLayout mDrawerLayout;
@@ -32,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
 
+    public DataManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dm = new DataManager(getApplicationContext());
 
         mNavDrawerListView = (ListView) findViewById(R.id.nav_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -185,5 +192,45 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTitlesListItemSelected(int pos) {
+        //este metodo se llamara cuando seleccionemos un titulo de imagen
+        Bundle arg = new Bundle();
+        arg.putInt("position", pos);
+
+        ViewFragment fragment = new ViewFragment();
+        fragment.setArguments(arg);
+
+        if (fragment != null){
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.fragment_holder, fragment, "VIEW")
+                    .commit();
+            mNavDrawerListView.setItemChecked(1, true);
+            mNavDrawerListView.setSelection(1);
+            mDrawerLayout.closeDrawer(mNavDrawerListView);
+        }else{
+            Log.e("MainActivity", "Ha habido un error al crear el fragmento...");
+        }
+
+    }
+
+    @Override
+    public void onTagListItemSelected(String tag) {
+        //este metodo se llamara cuando seleccionemos un tag de la lista
+        Bundle arg = new Bundle();
+        arg.putString("tag", tag);
+
+        TitlesFragment fragment = new TitlesFragment();
+        fragment.setArguments(arg);
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().
+                replace(R.id.fragment_holder, fragment, "TAGS").commit();
+
+        mNavDrawerListView.setItemChecked(1, true);
+        mNavDrawerListView.setSelection(1);
+        mDrawerLayout.closeDrawer(mNavDrawerListView);
     }
 }

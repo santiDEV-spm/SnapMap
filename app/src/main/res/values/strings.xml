@@ -16,6 +16,7 @@
     <string name="titles">Titles</string>
     <string name="show_map">Show Map</string>
     <string name="menu_choice">Make yout choice</string>
+    <string name="title_placeholder">Tiutlo</string>
 
     <!--Menu dek Navigation Drawer-->
     <string-array name="nav_drawer_items">
