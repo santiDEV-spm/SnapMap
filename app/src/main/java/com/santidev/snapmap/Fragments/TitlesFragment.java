@@ -1,7 +1,6 @@
 package com.santidev.snapmap.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,7 +12,7 @@ import android.widget.SimpleCursorAdapter;
 
 import androidx.annotation.Nullable;
 
-import com.santidev.snapmap.Model.DataManager;
+import com.santidev.snapmap.Models.DataManager;
 
 public class TitlesFragment extends ListFragment {
 

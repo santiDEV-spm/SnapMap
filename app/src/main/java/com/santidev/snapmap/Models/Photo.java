@@ -1,5 +1,6 @@
-package com.santidev.snapmap.Model;
+package com.santidev.snapmap.Models;
 
+import android.location.Location;
 import android.net.Uri;
 
 public class Photo {
@@ -7,6 +8,8 @@ public class Photo {
     private String mTitle;
     private String mTag1, mTag2, mTag3;
     private Uri mStorageLocation;
+    private Location mGpsLocation;
+
 
     public String getTitle() {
         return mTitle;
@@ -46,5 +49,13 @@ public class Photo {
 
     public void setStorageLocation(Uri storageLocation) {
         this.mStorageLocation = storageLocation;
+    }
+
+    public Location getGpsLocation(){
+        return this.mGpsLocation;
+    }
+
+    public void setGpsLocation(Location location){
+        this.mGpsLocation = location;
     }
 }

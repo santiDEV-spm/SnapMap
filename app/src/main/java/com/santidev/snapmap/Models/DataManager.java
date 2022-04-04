@@ -1,4 +1,4 @@
-package com.santidev.snapmap.Model;
+package com.santidev.snapmap.Models;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -22,9 +22,13 @@ public class DataManager {
     private static final String TABLE_ROW_TAG3 = "tag3";
 
     private static final String DB_NAME = "snapmap_db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String TABLE_PHOTOS = "snapmap_table_photos";
     private static final String TABLE_TAGS = "snapmap_table_tags";
+
+    /**Nuevos en la version 2 de la BD**/
+    public static final String TABLE_ROW_LOCATION_LAT = "gps_table_lat";
+    public static final String TABLE_ROW_LOCATION_LONG = "gps_table_long";
 
     public DataManager(Context context){
         SnapMapSQLiteOpenHelper helper = new SnapMapSQLiteOpenHelper(context);
@@ -36,12 +40,16 @@ public class DataManager {
                         TABLE_PHOTOS + " ("+
                         TABLE_ROW_TITLE+ ", "+
                         TABLE_ROW_URI + ", "+
+                        TABLE_ROW_LOCATION_LONG + ", "+
+                        TABLE_ROW_LOCATION_LAT + ", "+
                         TABLE_ROW_TAG1+ ", "+
                         TABLE_ROW_TAG2+ ", "+
                         TABLE_ROW_TAG3+ ") "
                         + " VALUES (" +
                         "'"+photo.getTitle()+"', " +
                         "'"+photo.getStorageLocation()+"', " +
+                        photo.getGpsLocation().getLatitude() + ", "+
+                        photo.getGpsLocation().getLatitude() + ", " +
                         "'"+photo.getTag1()+"', " +
                         "'"+photo.getTag2()+"', " +
                         "'"+photo.getTag3()+"'" +
@@ -121,6 +129,8 @@ public class DataManager {
                                     TABLE_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
                                     TABLE_ROW_TITLE + " TEXT NOT NULL, "+
                                     TABLE_ROW_URI + " TEXT NOT NULL, "+
+                                    TABLE_ROW_LOCATION_LONG + " real, " + //CAMBIO EN LA CREACION POR LA VERSION 2
+                                    TABLE_ROW_LOCATION_LAT + " real, " + //CAMBIO EN LA CREACION POR LA VERSION
                                     TABLE_ROW_TAG1 + " TEXT NOT NULL, "+
                                     TABLE_ROW_TAG2 + " TEXT NOT NULL, "+
                                     TABLE_ROW_TAG3 + " TEXT NOT NULL"+
@@ -137,8 +147,18 @@ public class DataManager {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            //coming soon..
+            //Actualizacion de la v2
+            if(oldVersion < 2) {
+                String addColLong = "ALTER TABLE " + TABLE_PHOTOS + " ADD " + TABLE_ROW_LOCATION_LONG +
+                        " real;";
 
+                String addColLat = "ALTER TABLE " + TABLE_PHOTOS + " ADD " + TABLE_ROW_LOCATION_LAT +
+                        " real;";
+
+                db.execSQL(addColLong);
+                db.execSQL(addColLat);
+            }
+            //cuando llegamos al final del onUpgrade, la version de la BD se actualiza a new Version
         }
     }
 

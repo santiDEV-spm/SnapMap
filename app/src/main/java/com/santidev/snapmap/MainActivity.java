@@ -25,7 +25,7 @@ import com.santidev.snapmap.Fragments.CaptureFragment;
 import com.santidev.snapmap.Fragments.TagsFragment;
 import com.santidev.snapmap.Fragments.TitlesFragment;
 import com.santidev.snapmap.Fragments.ViewFragment;
-import com.santidev.snapmap.Model.DataManager;
+import com.santidev.snapmap.Models.DataManager;
 
 
 public class MainActivity extends AppCompatActivity implements ActivityCommunications {

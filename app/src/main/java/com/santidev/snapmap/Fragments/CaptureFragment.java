@@ -2,11 +2,12 @@ package com.santidev.snapmap.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,13 +21,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.ListFragment;
+import androidx.core.location.LocationListenerCompat;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.santidev.snapmap.Model.DataManager;
-import com.santidev.snapmap.Model.Photo;
+import com.santidev.snapmap.Models.DataManager;
+import com.santidev.snapmap.Models.Photo;
 import com.santidev.snapmap.R;
 
 import java.io.File;
@@ -35,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class CaptureFragment extends Fragment {
+public class CaptureFragment extends Fragment  implements LocationListenerCompat {
 
 
     private static final int CAMERA_REQUEST = 1234;
@@ -49,10 +49,21 @@ public class CaptureFragment extends Fragment {
 
     //referencia a nuestro data manager para acceder a la base de datos
     private DataManager mDataManager;
+
+    //referencia a la geoposicion
+    private  Location mLocation = new Location("");
+    private LocationManager mLocationManager;
+    private String mProvider;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mDataManager = new DataManager(getActivity().getApplicationContext());
+
+        //Inicializamos el manager del gps
+        this.mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        mProvider = mLocationManager.getBestProvider(criteria, false);
     }
 
     @Nullable
@@ -108,6 +119,9 @@ public class CaptureFragment extends Fragment {
                         Photo photo = new Photo();
                         photo.setTitle(mEditTextTitle.getText().toString());
                         photo.setStorageLocation(mImageUri);
+
+                        photo.setGpsLocation(mLocation);
+
                         photo.setTag1(mEditTextTag1.getText().toString());
                         photo.setTag2(mEditTextTag2.getText().toString());
                         photo.setTag3(mEditTextTag3.getText().toString());
@@ -169,7 +183,6 @@ public class CaptureFragment extends Fragment {
 
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -177,6 +190,38 @@ public class CaptureFragment extends Fragment {
         bd.getBitmap().recycle();
         mImageView.setImageBitmap(null);
 
+    }
+
+    /**Metodos del LocationListener**/
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        mLocation = location;
+    }
+
+    @Override
+    public void onStatusChanged(@NonNull String provider, int status, @Nullable Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mLocationManager.requestLocationUpdates(mProvider, 500, 1, this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mLocationManager.removeUpdates(this);
     }
 }
 

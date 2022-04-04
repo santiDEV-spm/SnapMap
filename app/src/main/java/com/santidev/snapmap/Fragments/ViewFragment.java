@@ -2,6 +2,7 @@ package com.santidev.snapmap.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.santidev.snapmap.Model.DataManager;
+import com.santidev.snapmap.Models.DataManager;
 import com.santidev.snapmap.R;
+
+import java.util.Locale;
 
 public class ViewFragment extends Fragment {
 
@@ -49,6 +52,19 @@ public class ViewFragment extends Fragment {
         //forzamos en cada caso la obtencion de ltipo de datos pertinente, en nuestro caso String/Uri
         tv.setText(mCursor.getString(mCursor.getColumnIndex(DataManager.TABLE_ROW_TITLE)));
         mImageView.setImageURI(Uri.parse(mCursor.getString(mCursor.getColumnIndex(DataManager.TABLE_ROW_URI))));
+
+
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double latitude = Double.valueOf(mCursor.getString(mCursor.getColumnIndex(DataManager.TABLE_ROW_LOCATION_LAT)));
+                double longitude = Double.valueOf(mCursor.getString(mCursor.getColumnIndex(DataManager.TABLE_ROW_LOCATION_LONG)));
+
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                getActivity().startActivity(intent);
+            }
+        });
 
         return view;
     }
